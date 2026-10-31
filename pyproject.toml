@@ -1,0 +1,41 @@
+[project]
+name = "insurance-rag-chatbot"
+version = "0.1.0"
+description = "Chatbot AI bảo hiểm: pipeline ghi (ingestion) và pipeline đọc (retrieval + sinh câu trả lời có trích dẫn)"
+requires-python = ">=3.12"
+dependencies = [
+    "numpy",
+    "pydantic>=2",
+    "psycopg[binary]>=3.1",
+    "pgvector",
+    "pymupdf",
+    "python-docx",
+    "beautifulsoup4",
+    "anthropic",
+    "python-dotenv",
+    "fastapi",
+    "uvicorn",
+]
+
+[project.optional-dependencies]
+# Nặng (kéo theo PyTorch): embedding E5 + cross-encoder reranker
+embeddings = ["sentence-transformers"]
+# OCR trang scan (tải model về ~/.EasyOCR lần chạy đầu)
+ocr = ["easyocr"]
+
+[dependency-groups]
+dev = ["pytest", "ruff", "httpx"]
+
+[tool.uv]
+# Ứng dụng chạy từ thư mục gốc bằng `python -m ...`, không đóng gói thành thư viện
+package = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]

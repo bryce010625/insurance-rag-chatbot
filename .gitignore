@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.env
+# Tài liệu mẫu do scripts sinh ra
+data/
+# Thư mục inbox cho API (tài liệu chờ nạp)
+inbox/
+.DS_Store

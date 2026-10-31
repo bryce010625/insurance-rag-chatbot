@@ -1,0 +1,24 @@
+# Postgres + pgvector riêng cho ví dụ này (tách khỏi container của Lab 1: khác tên, khác cổng).
+# Chạy: docker compose up -d
+# Kết nối: postgresql://rag:rag@localhost:5434/ingestion  (đặt VECTOR_DSN nếu đổi)
+# Schema do code tạo (vector_store.py) vì số chiều vector phụ thuộc model embedding.
+services:
+  pgvector:
+    image: pgvector/pgvector:pg17
+    container_name: ingestion-pgvector
+    environment:
+      POSTGRES_USER: rag
+      POSTGRES_PASSWORD: rag
+      POSTGRES_DB: ingestion
+    ports:
+      - "5434:5432"
+    volumes:
+      - ingestion_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U rag -d ingestion"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  ingestion_pgdata:
